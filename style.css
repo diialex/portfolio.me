@@ -1,6 +1,7 @@
 body {
   font-family: 'Segoe UI', Arial, sans-serif;
-  background: #f4f6f9;
+  background-image:url(r&mWP.png);
+  background-attachment: scroll;
   color: #222;
   margin: 0;
   padding: 0;
