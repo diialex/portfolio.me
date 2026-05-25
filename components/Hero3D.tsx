@@ -5,7 +5,7 @@ import { useRef } from 'react'
 import * as THREE from 'three'
 
 function CyberModel() {
-  const { scene } = useGLTF('/flipperz0.glb')
+  const { scene } = useGLTF('/portfolio.me/flipperz0.glb')
   const modelRef = useRef<THREE.Group>(null!)
 
   useFrame((state) => {
