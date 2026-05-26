@@ -1,7 +1,7 @@
 'use client'
 import { Canvas, useFrame } from '@react-three/fiber'
-import { Float, Environment, useGLTF, OrbitControls } from '@react-three/drei'
-import { EffectComposer, Bloom, ChromaticAberration, Scanline } from '@react-three/postprocessing'
+import { Float, Environment, useGLTF, OrbitControls, Stage } from '@react-three/drei'
+//import { EffectComposer, Bloom, ChromaticAberration, Scanline } from '@react-three/postprocessing'
 import { BlendFunction } from 'postprocessing'
 import { useRef } from 'react'
 import * as THREE from 'three'
@@ -17,40 +17,31 @@ function HologramGlobe() {
   })
 
   return (
-    <Float speed={2} rotationIntensity={0} floatIntensity={0.2}>
-      {/* ⚠️ EL CENTRADO: Si sigue descentrado, ajusta el segundo valor de position (ej: -2, -3, o 1) */}
-      <primitive object={scene} ref={modelRef} scale={1.5} position={[0, 0.5, 0]} />
+    <Float speed={1} rotationIntensity={0} floatIntensity={0.1}>
+      <primitive object={scene} ref={modelRef} scale={1.5} position={[0, -0.05, 0]} />
     </Float>
   )
 }
 
 export default function HeroScene() {
   return (
-    // Quitamos el bg-black de aquí para que el div sea transparente
-    <div className="h-screen w-full relative">
-      <Canvas camera={{ position: [0, 0, 5], fov: 50 }}>
+    <div className="h-full w-full relative flex items-center justify-center">
+      {/* ⚠️ CAMBIO CRÍTICO: DPR={1}. Forzamos baja resolución para no saturar WebGL */}
+      <Canvas camera={{ position: [0, 0, 5], fov: 50 }} dpr={1} gl={{ antialias: true }}>
         
-        <ambientLight intensity={0.1} />
-        <directionalLight position={[5, 5, 5]} intensity={2} color="#00ffcc" />
-        <directionalLight position={[-5, -5, 5]} intensity={2} color="#ff00ff" />
+        {/* ⚠️ Stage nos da luces y sombras automáticas y muy eficientes */}
+        <Stage intensity={0.5} environment="city" adjustCamera={false}>
+          <HologramGlobe />
+        </Stage>
         
-        <HologramGlobe />
-        
-        {/* Bloqueamos los ángulos para que la cámara no pueda ir por debajo ni por encima del proyector */}
-        <OrbitControls 
-          enableZoom={false} 
-          enablePan={false}
-          minPolarAngle={Math.PI / 2.2} // Fija el ángulo ligeramente por encima del horizonte
-          maxPolarAngle={Math.PI / 2.2}
-        />
-        
-        <Environment preset="city" />
+        <OrbitControls enableZoom={false} enablePan={false} minPolarAngle={Math.PI / 2.2} maxPolarAngle={Math.PI / 2.2} />
 
-        <EffectComposer>
+        {/* ⚠️ COMENTAMOS LOS EFECTOS DE POST-PROCESADO EN PRODUCCIÓN PARA EL GLOBO */}
+        {/* <EffectComposer>
           <Bloom luminanceThreshold={0.2} luminanceSmoothing={0.9} intensity={1.5} mipmapBlur />
           <ChromaticAberration blendFunction={BlendFunction.NORMAL} offset={new THREE.Vector2(0.002, 0.002)} />
           <Scanline blendFunction={BlendFunction.OVERLAY} density={1.5} opacity={0.1} />
-        </EffectComposer>
+        </EffectComposer> */}
       </Canvas>
     </div>
   )
