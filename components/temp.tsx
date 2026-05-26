@@ -76,43 +76,42 @@ export default function OffGridActivities() {
   }, { scope: containerRef });
 
   return (
-    <div id="hobbies" className="w-screen relative left-1/2 -translate-x-1/2 px-6 md:px-12 lg:px-24" ref={containerRef}>
+    <div id="hobbies" className="w-full" ref={containerRef}>
+      <h2 className="text-3xl font-bold text-white mb-8 border-b border-gray-800 pb-4">
+        <span className="text-cyan-500 mr-2">~/</span>off_grid_modules.exe
+      </h2>
       
-      <div className="max-w-[1600px] mx-auto">
-        <h2 className="text-3xl font-bold text-white mb-12 border-b border-gray-800 pb-4">
-          <span className="text-cyan-500 mr-2">~/</span>off_grid_modules.exe
-        </h2>
-        
-        {/* LA MAGIA DEL ESPACIADO: Flexbox centrado con gaps proporcionales */}
-        <div className="flex flex-wrap justify-center gap-8 lg:gap-12">
-          {activities.map((act, index) => (
-            <div 
-              key={index} 
-              // CAMBIO: lg:w-[47%] para que sean 2 columnas masivas. p-10 para más espacio interior.
-              className="hobby-card group relative bg-black/60 border border-gray-800 p-8 lg:p-10 overflow-hidden hover:bg-gray-900/40 transition-colors duration-300 flex flex-col xl:flex-row justify-between items-start xl:items-center gap-6 w-full lg:w-[47%]">
-              <div className={`absolute top-0 left-0 w-1 h-full ${act.accent} opacity-50 group-hover:opacity-100 transition-all`} />
-              
-              <div className="pl-6 flex-1 z-10">
-                <span className={`text-sm font-bold tracking-widest ${act.textAccent} mb-3 block opacity-70`}>
-                  [{act.id}]
-                </span>
-                <h3 className="text-2xl font-semibold text-gray-100 mb-3 group-hover:text-white transition-colors">
-                  {act.title}
-                </h3>
-                <p className="text-gray-400 text-base leading-relaxed">
-                  {act.description}
-                </p>
-              </div>
-
-              {act.modelPath && (
-                <div className="shrink-0 flex items-center justify-center relative z-10 w-full xl:w-auto mt-6 xl:mt-0 drop-shadow-[0_0_10px_rgba(0,0,0,0.8)] group-hover:drop-shadow-[0_0_20px_rgba(6,182,212,0.5)] transition-all duration-500 xl:mr-4">
-                   {/* Lienzo ampliado a w-48 h-48 para los modelos 3D */}
-                   <ModelIcon path={act.modelPath} scale={act.modelScale} sizeClass="w-40 h-40 lg:w-48 lg:h-48" />
-                </div>
-              )}
+      {/* ⚠️ CAMBIO CLAVE: Cambiamos grid por flex-col para ocupar filas horizontales */}
+      <div className="flex flex-col gap-4 w-full">
+        {activities.map((act, index) => (
+          <div 
+            key={index} 
+            className="hobby-card group relative bg-black/60 border border-gray-800 p-8 overflow-hidden hover:bg-gray-900/40 transition-colors duration-300 flex flex-col md:flex-row md:items-center justify-between gap-6 w-full"
+          >
+            <div className={`absolute top-0 left-0 w-1 h-full ${act.accent} opacity-50 group-hover:opacity-100 group-hover:shadow-[0_0_15px_currentColor] transition-all`} />
+            
+            {/* El texto ahora tiene max-w-3xl para que no se estire de forma infinita en pantallas ultra-anchas */}
+            <div className="pl-4 flex-1">
+              <span className={`text-xs font-bold tracking-widest ${act.textAccent} mb-2 block opacity-70`}>
+                [{act.id}]
+              </span>
+              <h3 className="text-xl font-semibold text-gray-100 mb-2 group-hover:text-white transition-colors">
+                {act.title}
+              </h3>
+              <p className="text-gray-400 text-sm leading-relaxed max-w-3xl">
+                {act.description}
+              </p>
             </div>
-          ))}
-        </div>
+
+            {/* Renderizado del modelo flotante con dimensiones ampliadas (w-40 h-40) */}
+            {act.modelPath && (
+              <div className="shrink-0 relative z-10 flex items-center justify-center drop-shadow-[0_0_10px_rgba(0,0,0,0.8)] group-hover:drop-shadow-[0_0_20px_rgba(6,182,212,0.4)] transition-all duration-500 md:mr-4">
+                 <ModelIcon path={act.modelPath} scale={act.modelScale} sizeClass="w-36 h-36 md:w-40 md:h-40" />
+              </div>
+            )}
+
+          </div>
+        ))}
       </div>
     </div>
   );

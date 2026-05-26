@@ -32,6 +32,7 @@ export default function NavBar() {
     { id: 'about', label: 'SYS.INFO' },
     { id: 'skills', label: 'CAPABILITIES' },
     { id: 'experience', label: 'EVENT_LOGS' },
+    { id: 'projects', label: 'DEPLOYMENTS' },
     { id: 'hobbies', label: 'OFF_GRID' },
   ];
 
