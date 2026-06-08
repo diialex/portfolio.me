@@ -1,47 +1,86 @@
 'use client'
 import { Canvas, useFrame } from '@react-three/fiber'
-import { Float, Environment, useGLTF, OrbitControls, Stage } from '@react-three/drei'
-//import { EffectComposer, Bloom, ChromaticAberration, Scanline } from '@react-three/postprocessing'
-import { BlendFunction } from 'postprocessing'
 import { useRef } from 'react'
+import { useTexture, OrbitControls } from '@react-three/drei'
 import * as THREE from 'three'
 
-function HologramGlobe() {
-  const { scene } = useGLTF('/portfolio.me/earth_globe_hologram.glb')
-  const modelRef = useRef<THREE.Group>(null!)
+function HolographicEarth() {
+  const earthRef = useRef<THREE.Group>(null!)
+  const wireframeRef = useRef<THREE.Mesh>(null!)
+  
+  // Usamos un mapa oscuro de alto contraste ideal para multiplicar por colores neón
+  const earthMap = useTexture('https://unpkg.com/three-globe/example/img/earth-dark.jpg')
 
   useFrame(() => {
-    if (!modelRef.current) return
-    // ÚNICA ROTACIÓN: El eje Y (horizontal). El proyector se queda anclado.
-    modelRef.current.rotation.y += 0.002
+    if (!earthRef.current || !wireframeRef.current) return
+    
+    // Rotación suave del globo principal
+    earthRef.current.rotation.y += 0.002
+    
+    // La malla de alambre rota un pelín más rápido y en un eje inclinado para dar efecto de "escáner"
+    wireframeRef.current.rotation.y += 0.003
+    wireframeRef.current.rotation.z += 0.0005
   })
 
   return (
-    <Float speed={1} rotationIntensity={0} floatIntensity={0.1}>
-      <primitive object={scene} ref={modelRef} scale={1.5} position={[0, -0.05, 0]} />
-    </Float>
+    <group ref={earthRef} scale={1.4}>
+      
+      {/* 1. NÚCLEO OSCURO: Evita que veamos la parte trasera del holograma mezclada y sature la imagen */}
+      <mesh>
+        <sphereGeometry args={[0.98, 32, 32]} />
+        <meshBasicMaterial color="#000000" />
+      </mesh>
+
+      {/* 2. CAPA HOLOGRÁFICA (Continentes y Luces) */}
+      <mesh>
+        <sphereGeometry args={[1, 64, 64]} />
+        <meshStandardMaterial 
+          map={earthMap}
+          color="#00ffcc"           // Tono base verde/cian
+          emissive="#06b6d4"        // Resplandor cian
+          emissiveIntensity={0.8}   // Fuerza del brillo
+          transparent={true}
+          opacity={0.9}
+          blending={THREE.AdditiveBlending} // Fusión mágica: convierte texturas en luz pura
+        />
+      </mesh>
+
+      {/* 3. CAPA DE RED (Wireframe exterior) */}
+      <mesh ref={wireframeRef}>
+        <sphereGeometry args={[1.05, 32, 32]} />
+        <meshBasicMaterial 
+          color="#06b6d4" 
+          wireframe={true} 
+          transparent={true} 
+          opacity={0.15} 
+          blending={THREE.AdditiveBlending}
+        />
+      </mesh>
+      
+    </group>
   )
 }
 
 export default function HeroScene() {
   return (
-    <div className="h-full w-full relative flex items-center justify-center">
-      {/* ⚠️ CAMBIO CRÍTICO: DPR={1}. Forzamos baja resolución para no saturar WebGL */}
-      <Canvas camera={{ position: [0, 0, 5], fov: 50 }} dpr={1} gl={{ antialias: true }}>
+    <div className="w-full h-full relative flex items-center justify-center cursor-grab active:cursor-grabbing">
+      <Canvas camera={{ position: [0, 0, 5], fov: 45 }}>
         
-        {/* ⚠️ Stage nos da luces y sombras automáticas y muy eficientes */}
-        <Stage intensity={0.5} environment="city" adjustCamera={false}>
-          <HologramGlobe />
-        </Stage>
+        {/* Iluminación dramática para potenciar el holograma */}
+        <ambientLight intensity={0.2} />
+        <directionalLight position={[10, 5, 10]} intensity={2} color="#00ffcc" />
+        <directionalLight position={[-10, -5, -10]} intensity={0.5} color="#06b6d4" />
         
-        <OrbitControls enableZoom={false} enablePan={false} minPolarAngle={Math.PI / 2.2} maxPolarAngle={Math.PI / 2.2} />
-
-        {/* ⚠️ COMENTAMOS LOS EFECTOS DE POST-PROCESADO EN PRODUCCIÓN PARA EL GLOBO */}
-        {/* <EffectComposer>
-          <Bloom luminanceThreshold={0.2} luminanceSmoothing={0.9} intensity={1.5} mipmapBlur />
-          <ChromaticAberration blendFunction={BlendFunction.NORMAL} offset={new THREE.Vector2(0.002, 0.002)} />
-          <Scanline blendFunction={BlendFunction.OVERLAY} density={1.5} opacity={0.1} />
-        </EffectComposer> */}
+        <HolographicEarth />
+        
+        <OrbitControls 
+          enableZoom={false} 
+          enablePan={false} 
+          autoRotate 
+          autoRotateSpeed={0.5} 
+          minPolarAngle={Math.PI / 2.5} // Limita un poco la rotación vertical para no ver los polos distorsionados
+          maxPolarAngle={Math.PI / 1.5}
+        />
       </Canvas>
     </div>
   )

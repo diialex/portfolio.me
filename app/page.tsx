@@ -12,14 +12,13 @@ import CustomCursor from '../components/CustomCursor';
 import CircuitSeparator from '../components/CircuitSeparator';
 import Footer from '../components/Footer';
 
-// 1. Nuevos imports
+// Nuevos imports
 import BootSequence from '../components/BootSequence';
 import ProjectShowcase from '../components/ProjectShowcase';
-import { Stardos_Stencil } from 'next/font/google';
 import StarBackground from '@/components/StarBackground';
 
 export default function Home() {
-  // 2. Estado para controlar si estamos en la secuencia de carga
+  // Estado para controlar si estamos en la secuencia de carga
   const [isBooting, setIsBooting] = useState(true);
 
   return (
@@ -27,33 +26,56 @@ export default function Home() {
       
       <StarBackground /> {/* Fondo de estrellas animado */}
 
-      {/* 3. El Preloader: solo se destruye cuando termina su secuencia */}
+      {/* El Preloader: solo se destruye cuando termina su secuencia */}
       {isBooting && <BootSequence onComplete={() => setIsBooting(false)} />}
-      
       
       <CustomCursor />
       <HiddenTerminal />
       <NavBar />
 
-      <section id="hero" className="relative h-screen w-full">
-        <div className="absolute top-8 left-8 z-10 pointer-events-none">
-          <h1 className="text-4xl md:text-6xl font-bold text-white tracking-widest uppercase animate-pulse">
-            Alejandro Romero
-          </h1>
-          <p className="text-cyan-400 mt-2 text-xl">
-            Ingeniería Informática · Ciberseguridad · DevSecOps
-          </p>
+      {/* =========================================
+          CABECERA FIJA (Nombre y Rol)
+          ========================================= */}
+      <header className="absolute top-8 left-8 md:left-12 z-20 pointer-events-none">
+        <h1 className="text-4xl md:text-6xl font-bold text-white tracking-widest uppercase animate-pulse">
+          Alejandro Romero
+        </h1>
+        <p className="text-cyan-400 mt-2 text-xl">
+          Ingeniería Informática · Ciberseguridad · DevSecOps
+        </p>
+      </header>
+
+      {/* =========================================
+          GRID PRINCIPAL: Sobre Mí (Izquierda) | Globo (Derecha)
+          ========================================= */}
+      <section id="hero" className="relative h-screen w-full flex items-center pt-32 px-8 md:px-12 lg:px-24 z-10">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 w-full max-w-7xl mx-auto items-center">
+          
+          {/* COLUMNA IZQUIERDA: Texto puro y duro */}
+          <div id="about" className="text-green-400 font-mono text-lg md:text-xl">
+             <DecryptText 
+               text="~/sobre-mi.txt" 
+               className="text-2xl md:text-3xl text-green-500 mb-6 font-bold block" 
+             />
+             <DecryptText 
+               text="Ingeniero Informático con especial interés en la ciberseguridad, infraestructura IT y sistemas inteligentes. Combino el desarrollo de software con el análisis de seguridad física y señales. Curioso, autodidacta y resolutivo." 
+               className="leading-relaxed block" 
+             />
+          </div>
+
+          {/* COLUMNA DERECHA: Renderizado 3D */}
+          <div className="relative w-full h-[50vh] lg:h-[70vh]">
+            <HeroScene />
+          </div>
+
         </div>
-        <HeroScene />
       </section>
 
-      <section className="max-w-5xl mx-auto py-24 px-6 space-y-64 pb-64">
+      {/* =========================================
+          RESTO DE LA PÁGINA
+          ========================================= */}
+      <section className="max-w-5xl mx-auto py-24 px-6 space-y-64 pb-64 relative z-10">
         
-        <div id="about" className="...">
-           <DecryptText text="~/sobre-mi.txt" className="..." />
-           <DecryptText text="Ingeniero Informático con especial interés..." className="..." />
-        </div>
-
         <div>
           <CircuitSeparator label="SYS.CAPABILITIES" />
           <div className="mt-24">
@@ -68,7 +90,6 @@ export default function Home() {
           </div>
         </div>
 
-        {/* 4. Nuevo bloque de Proyectos */}
         <div>
           <CircuitSeparator label="ACTIVE.DEPLOYMENTS" />
           <div className="mt-24">
