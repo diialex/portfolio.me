@@ -14,49 +14,49 @@ export default function OffGridActivities() {
 
   const activities = [
     {
-      id: "SYS.KINEMATICS",
-      title: "Biomecánica & Combate",
-      description: "Powerlifting, boxeo y calistenia. La disciplina, constancia y el trabajo bajo presión llevados al mundo físico.",
-      accent: "border-orange-500",
-      textAccent: "text-orange-400",
-      modelPath: "/portfolio.me/chemical_pot.glb",
-      modelScale: 0.06 // Escalado aumentado para el nuevo visor grande
-    },
-    {
       id: "SYS.MECHANICS",
-      title: "Ingeniería Mecánica",
-      description: "Mantenimiento, restauración y modificación de motocicleta custom propia. Operaciones a bajo nivel sin depender de talleres.",
+      title: "Mecánica & Bricolaje",
+      description: "Restauración y mantenimiento de mi motocicleta custom. Manejo de maquinaria pesada (radiales, taladros, bombas de agua) y experiencia práctica en obra civil y reformas.",
       accent: "border-gray-400",
       textAccent: "text-gray-300",
       modelPath: "/portfolio.me/robohand_voxel.glb",
-      modelScale: 0.07 // Escalado aumentado
+      modelScale: 0.07
     },
     {
-      id: "SYS.WAVEFORMS",
-      title: "Procesamiento Acústico",
-      description: "Interpretación de guitarra y trompeta. Experiencia en sincronización y trabajo en equipo en bandas locales.",
+      id: "SYS.AUDIO",
+      title: "Música y Sistemas",
+      description: "Afición casual por la guitarra, trompeta y batería. Hice mi propio home-studio con tarjeta de sonido, sistema 5.1 y paneles acústicos.",
       accent: "border-purple-500",
       textAccent: "text-purple-400",
       modelPath: "/portfolio.me/a_neon_pixel_guitare.glb",
-      modelScale: 0.045 // Ajusta este número
+      modelScale: 0.045
     },
     {
-      id: "SYS.ALGORITHMS",
-      title: "Algoritmia & Flujo",
-      description: "Skateboarding, Ajedrez y Cubo de Rubik (resolución < 1 min). Reconocimiento de patrones y memoria muscular.",
+      id: "SYS.LOGIC",
+      title: "Algoritmia & Lógica",
+      description: "Miembro del Club de Algoritmia de Sevilla. Entrenando la resolución de problemas y el pensamiento junto al ajedrez y cubo de Rubik.",
       accent: "border-cyan-500",
       textAccent: "text-cyan-400",
       modelPath: "/portfolio.me/rubiks_cube.glb",
-      modelScale: 0.01 // Ajusta este número
+      modelScale: 0.01
     },
     {
-      id: "SYS.OPTICS",
-      title: "Óptica & Fabricación",
-      description: "Fotografía, edición digital (Lightroom/Premiere) e impresión 3D. Creación de piezas desde el modelado hasta la extrusión plástica.",
+      id: "SYS.KINETICS",
+      title: "Movimiento & Resistencia",
+      description: "Powerlifting, boxeo, calistenia, baloncesto y skateboarding. Disciplina y constancia para mantener el hardware biológico a punto y desconectar de las pantallas.",
+      accent: "border-orange-500",
+      textAccent: "text-orange-400",
+      modelPath: "/portfolio.me/chemical_pot.glb",
+      modelScale: 0.06
+    },
+    {
+      id: "SYS.MAKER",
+      title: "Fabricación Digital & Óptica",
+      description: "Impresión 3D (desde el diseño CAD hasta la extrusión), fotografía y edición (Lightroom/Premiere). Llevando ideas del plano digital a la realidad física.",
       accent: "border-green-500",
       textAccent: "text-green-400",
       modelPath: "/portfolio.me/David_Retro.glb",
-      modelScale: 0.45 // Ajusta este número
+      modelScale: 0.45
     }
   ];
 
@@ -83,13 +83,12 @@ export default function OffGridActivities() {
           <span className="text-cyan-500 mr-2">~/</span>off_grid_modules.exe
         </h2>
         
-        {/* LA MAGIA DEL ESPACIADO: Flexbox centrado con gaps proporcionales */}
         <div className="flex flex-wrap justify-center gap-8 lg:gap-12">
           {activities.map((act, index) => (
             <div 
               key={index} 
-              // CAMBIO: lg:w-[47%] para que sean 2 columnas masivas. p-10 para más espacio interior.
-              className="hobby-card group relative bg-black/60 border border-gray-800 p-8 lg:p-10 overflow-hidden hover:bg-gray-900/40 transition-colors duration-300 flex flex-col xl:flex-row justify-between items-start xl:items-center gap-6 w-full lg:w-[47%]">
+              className="hobby-card group relative bg-black/60 border border-gray-800 p-8 lg:p-10 overflow-hidden hover:bg-gray-900/40 transition-colors duration-300 flex flex-col xl:flex-row justify-between items-start xl:items-center gap-6 w-full lg:w-[47%]"
+            >
               <div className={`absolute top-0 left-0 w-1 h-full ${act.accent} opacity-50 group-hover:opacity-100 transition-all`} />
               
               <div className="pl-6 flex-1 z-10">
@@ -106,7 +105,6 @@ export default function OffGridActivities() {
 
               {act.modelPath && (
                 <div className="shrink-0 flex items-center justify-center relative z-10 w-full xl:w-auto mt-6 xl:mt-0 drop-shadow-[0_0_10px_rgba(0,0,0,0.8)] group-hover:drop-shadow-[0_0_20px_rgba(6,182,212,0.5)] transition-all duration-500 xl:mr-4">
-                   {/* Lienzo ampliado a w-48 h-48 para los modelos 3D */}
                    <ModelIcon path={act.modelPath} scale={act.modelScale} sizeClass="w-40 h-40 lg:w-48 lg:h-48" />
                 </div>
               )}

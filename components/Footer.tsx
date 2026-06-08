@@ -27,7 +27,7 @@ export default function Footer() {
           </a>
 
           {/* Gmail */}
-          <a href="mailto:tuemail@ejemplo.com" className="group flex items-center gap-2 text-gray-500 hover:text-red-400 transition-colors">
+          <a href="alexromeroginer@gmail.com" className="group flex items-center gap-2 text-gray-500 hover:text-red-400 transition-colors">
             <svg className="w-6 h-6 fill-current group-hover:drop-shadow-[0_0_8px_rgba(248,113,113,0.8)] transition-all" viewBox="0 0 24 24">
               <path d="M0 3v18h24v-18h-24zm6.623 7.929l-4.623 5.712v-9.458l4.623 3.746zm-4.141-5.929h19.035l-9.517 7.713-9.518-7.713zm5.694 7.188l3.824 3.099 3.83-3.104 5.612 6.817h-18.779l5.513-6.812zm9.208-1.288l4.616-3.741v9.348l-4.616-5.607z"/>
             </svg>
@@ -49,7 +49,7 @@ export default function Footer() {
             <span className="text-cyan-600 mr-2">$cat</span>copyright.txt
           </p>
           <p className="text-gray-500 text-xs">
-            © {currentYear} DevOps & Cloud Engineer
+            © {currentYear} Beginner human {":)"}
           </p>
           <p className="text-gray-600 text-xs mt-1">
             Built with React, TypeScript, and Cyber Terminal Aesthetic

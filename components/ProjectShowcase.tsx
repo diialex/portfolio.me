@@ -117,7 +117,7 @@ export default function ProjectShowcase() {
             {/* Matriz de Tecnologías */}
             <div className="mt-auto">
               <p className="text-gray-600 text-xs font-bold tracking-widest mb-2 font-mono uppercase">
-                REQUIRED_MODULES:
+                &gt; REQUIRED_MODULES:
               </p>
               <div className="flex flex-wrap gap-2">
                 {project.tech.map((tech, idx) => (

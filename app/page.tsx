@@ -38,10 +38,10 @@ export default function Home() {
           ========================================= */}
       <header className="absolute top-8 left-8 md:left-12 z-20 pointer-events-none">
         <h1 className="text-4xl md:text-6xl font-bold text-white tracking-widest uppercase animate-pulse">
-          Alejandro Romero
+          Alejandro Romero Delgado
         </h1>
         <p className="text-cyan-400 mt-2 text-xl">
-          Ingeniería Informática · Ciberseguridad · DevSecOps
+          &gt; Ingeniería Informática · Ciberseguridad · DevSecOps
         </p>
       </header>
 
@@ -58,8 +58,12 @@ export default function Home() {
                className="text-2xl md:text-3xl text-green-500 mb-6 font-bold block" 
              />
              <DecryptText 
-               text="Ingeniero Informático con especial interés en la ciberseguridad, infraestructura IT y sistemas inteligentes. Combino el desarrollo de software con el análisis de seguridad física y señales. Curioso, autodidacta y resolutivo." 
-               className="leading-relaxed block" 
+               text="Ingeniero Informático especializado en Ciberseguridad, Infraestructuras y Sistemas Inteligentes." 
+               className="leading-relaxed block mb-4 font-semibold text-gray-100" 
+             />
+             <DecryptText 
+               text="Me encanta todo lo relacionado con la tecnología y las máquinas. Desarrollo mis propias herramientas y experimentos, desde captura de sñales en hardware fisico (SDR, Robótica) hasta su procesamiento y fortificación en arquitecturas distribuidas. Acostumbrado a auditar sistemas complejos, detectar vulnerabilidades y diseñar soluciones para mis entornos." 
+               className="leading-relaxed block text-gray-400 text-base md:text-lg" 
              />
           </div>
 
