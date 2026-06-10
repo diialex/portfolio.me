@@ -62,7 +62,7 @@ export default function Home() {
                className="leading-relaxed block mb-4 font-semibold text-gray-100" 
              />
              <DecryptText 
-               text="Me encanta todo lo relacionado con la tecnología y las máquinas. Desarrollo mis propias herramientas y experimentos, desde captura de sñales en hardware fisico (SDR, Robótica) hasta su procesamiento y fortificación en arquitecturas distribuidas. Acostumbrado a auditar sistemas complejos, detectar vulnerabilidades y diseñar soluciones para mis entornos." 
+               text="Me encanta todo lo relacionado con la tecnología y las máquinas. Desarrollo mis propias herramientas y experimentos, desde captura de señales en hardware fisico (SDR, Robótica) hasta su procesamiento y fortificación en arquitecturas distribuidas. Acostumbrado a auditar sistemas complejos, detectar vulnerabilidades y diseñar soluciones para mis entornos." 
                className="leading-relaxed block text-gray-400 text-base md:text-lg" 
              />
           </div>

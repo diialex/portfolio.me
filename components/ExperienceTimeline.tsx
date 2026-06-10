@@ -90,7 +90,11 @@ export default function ExperienceTimeline() {
       iconColor: "bg-orange-500",
       glow: "shadow-[0_0_10px_#ef4444]",
       extendedDetails: "Seleccionado para participar en la doble vía formativa de UPTECH (Artificial Intelligence & Cybersecurity). Profundización teórica y práctica en el despliegue de modelos de Machine Learning, diseño de arquitecturas seguras y protección de infraestructuras críticas. Exploración de la automatización de amenazas y defensas mediante IA.",
-      tags: ["Artificial Intelligence", "Cybersecurity", "Machine Learning", "SecOps"]
+      tags: ["Artificial Intelligence", "Cybersecurity", "Machine Learning", "SecOps"],
+      certificates: [
+        { name: "CERT_UPTECH_AI.pdf", link: "/certs/uptech_ai.pdf" },
+        { name: "CERT_UPTECH_CYBER.pdf", link: "/certs/uptech_cyber.pdf" }
+      ]
     },
     {
       date: "[OCT 2025]",
@@ -264,14 +268,14 @@ export default function ExperienceTimeline() {
               </div>
 
               {/* SECCIÓN EXTERNAL LINKS (Certificados + LinkedIn) */}
-              {(activeEvent.certificate || activeEvent.linkedinUrl) && (
+{(activeEvent.certificate || activeEvent.certificates || activeEvent.linkedinUrl) && (
                 <div className="mt-4 border-t border-gray-800 pt-6">
                   <p className="text-gray-500 text-sm font-bold tracking-widest mb-4 uppercase font-mono">
                     &gt; SECURE_CONNECTIONS:
                   </p>
                   <div className="flex flex-wrap gap-4">
                     
-                    {/* Botón de Certificado PDF */}
+                    {/* Renderiza certificado único (retrocompatibilidad) */}
                     {activeEvent.certificate && (
                       <a 
                         href={activeEvent.certificate.link} 
@@ -287,6 +291,24 @@ export default function ExperienceTimeline() {
                         </span>
                       </a>
                     )}
+
+                    {/* Renderiza Múltiples certificados (Ej: UPTECH) */}
+                    {activeEvent.certificates && activeEvent.certificates.map((cert: any, index: number) => (
+                      <a 
+                        key={index}
+                        href={cert.link} 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-3 bg-black/40 border border-gray-700 hover:border-cyan-500 hover:bg-cyan-900/20 text-gray-300 hover:text-cyan-400 px-4 py-2.5 rounded-sm transition-all duration-300 group"
+                      >
+                        <svg className="w-4 h-4 group-hover:animate-bounce" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                        </svg>
+                        <span className="font-mono text-sm tracking-wide">
+                          GET {cert.name}
+                        </span>
+                      </a>
+                    ))}
 
                     {/* Botón de LinkedIn Post */}
                     {activeEvent.linkedinUrl && (

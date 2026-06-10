@@ -1,4 +1,12 @@
 'use client'
+import { useRef } from 'react';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { useGSAP } from '@gsap/react';
+
+if (typeof window !== "undefined") {
+  gsap.registerPlugin(ScrollTrigger, useGSAP);
+}
 
 interface SkillCategory {
   title: string;
@@ -10,6 +18,8 @@ interface SkillCategory {
 }
 
 export default function SkillsMatrix() {
+  const containerRef = useRef<HTMLDivElement>(null);
+
   const skillCategories: SkillCategory[] = [
     {
       title: "Ciberseguridad & Auditoría",
@@ -55,8 +65,43 @@ export default function SkillsMatrix() {
     "TailwindCSS", "Bootstrap"
   ];
 
+  useGSAP(() => {
+    // Usamos fromTo para garantizar que las tarjetas se hagan visibles
+    gsap.fromTo('.skill-card', 
+      { y: 40, opacity: 0 },
+      {
+        scrollTrigger: {
+          trigger: containerRef.current,
+          start: "top 80%",
+          toggleActions: "play none none reverse"
+        },
+        y: 0,
+        opacity: 1,
+        duration: 0.6,
+        stagger: 0.1, // Aparición secuencial
+        ease: "power2.out"
+      }
+    );
+
+    // Animación para la consola inferior
+    gsap.fromTo('.console-log-box', 
+      { y: 20, opacity: 0 },
+      {
+        scrollTrigger: {
+          trigger: '.console-log-box',
+          start: "top 85%",
+          toggleActions: "play none none reverse"
+        },
+        y: 0,
+        opacity: 1,
+        duration: 0.6,
+        ease: "power2.out"
+      }
+    );
+  }, { scope: containerRef });
+
   return (
-    <div id="skills" className="w-full">
+    <div id="skills" className="w-full" ref={containerRef}>
       <h2 className="text-3xl font-bold text-white mb-10 border-b border-gray-800 pb-4">
         <span className="text-cyan-500 mr-2">~/</span>capabilities_matrix.sh
       </h2>
@@ -65,7 +110,7 @@ export default function SkillsMatrix() {
         {skillCategories.map((category, index) => (
           <div 
             key={index} 
-            className={`bg-[#050908] border border-gray-800 p-6 rounded-sm transition-all duration-300 ${category.bgHover}`}
+            className={`skill-card bg-[#050908] border border-gray-800 p-6 rounded-sm transition-all duration-300 ${category.bgHover}`}
           >
             <h3 className={`text-lg font-bold mb-4 font-mono ${category.accent.split(' ')[0]}`}>
               {category.title}
@@ -84,8 +129,8 @@ export default function SkillsMatrix() {
         ))}
       </div>
 
-      {/* BLOQUE LEGACY SIEMPRE VISIBLE */}
-      <div className="mt-8 bg-[#050908] border border-gray-800 rounded-sm p-5 w-full">
+      {/* BLOQUE LEGACY ANIMADO */}
+      <div className="console-log-box mt-8 bg-[#050908] border border-gray-800 rounded-sm p-5 w-full">
         <p className="text-gray-500 font-mono text-xs mb-4 select-none flex gap-2">
           <span className="text-green-500">root@system</span>:
           <span className="text-blue-400">~/archive</span>$ cat legacy_and_misc.log
