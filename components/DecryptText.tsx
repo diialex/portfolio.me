@@ -2,11 +2,12 @@
 import { useEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
 
-const CHARS = '!<>-_\\/[]{}—=+*^?#________';
+const CHARS = '!<>-_\\/[]{}—=+*^?#';
 
 export default function DecryptText({ text, className = '' }: { text: string, className?: string }) {
   const containerRef = useRef<HTMLDivElement>(null);
-  const [displayText, setDisplayText] = useState('');
+  // En lugar de guardar el string completo, guardamos el progreso de la iteración
+  const [iteration, setIteration] = useState(0);
   const [hasAnimated, setHasAnimated] = useState(false);
 
   useEffect(() => {
@@ -15,28 +16,20 @@ export default function DecryptText({ text, className = '' }: { text: string, cl
         if (entries[0].isIntersecting && !hasAnimated) {
           setHasAnimated(true);
           
-          // GSAP: Aparecer de abajo hacia arriba suavemente
           gsap.fromTo(containerRef.current, 
-            { y: 20, opacity: 0 }, 
-            { y: 0, opacity: 1, duration: 1, ease: 'power3.out' }
+            { y: 15, opacity: 0 }, 
+            { y: 0, opacity: 1, duration: 0.8, ease: 'power3.out' }
           );
 
-          // Lógica Hacker: Scramble de texto
-          let iteration = 0;
+          let currentIter = 0;
           const interval = setInterval(() => {
-            setDisplayText(
-              text
-                .split('')
-                .map((letter, index) => {
-                  if (index < iteration) return text[index];
-                  return CHARS[Math.floor(Math.random() * CHARS.length)];
-                })
-                .join('')
-            );
+            currentIter += 1; // Salto mayor para que la desencriptación sea mucho más rápida
+            setIteration(currentIter);
 
-            if (iteration >= text.length) clearInterval(interval);
-            iteration += 1 / 3; // Ralentiza el efecto para que se lea mejor
-          }, 30);
+            if (currentIter >= text.length) {
+              clearInterval(interval);
+            }
+          }, 20); // Intervalo reducido a 20ms para mayor fluidez
         }
       },
       { threshold: 0.1 }
@@ -46,9 +39,38 @@ export default function DecryptText({ text, className = '' }: { text: string, cl
     return () => observer.disconnect();
   }, [text, hasAnimated]);
 
+  // Construimos el DOM letra por letra en cada renderizado
+  const renderText = () => {
+    if (!hasAnimated) return <span className="opacity-0">{text}</span>;
+
+    return text.split('').map((char, index) => {
+      // 1. Respetar espacios siempre
+      if (char === ' ') return <span key={index}> </span>;
+
+      // 2. Letras ya reveladas (color normal)
+      if (index < iteration) return <span key={index}>{char}</span>;
+
+      // 3. Ventana de "scramble": 2 letras revolviéndose en cian
+      if (index < iteration + 2) {
+        return (
+          <span key={index} className="text-cyan-400 opacity-80">
+            {CHARS[Math.floor(Math.random() * CHARS.length)]}
+          </span>
+        );
+      }
+
+      // 4. El resto del texto oculto (evita saltos de maquetación y que el texto se salga de la pantalla)
+      return <span key={index} className="opacity-0">{char}</span>;
+    });
+  };
+
   return (
-    <div ref={containerRef} className={`opacity-0 ${className}`}>
-      {displayText || text.replace(/./g, '_')}
+    <div ref={containerRef} className={`opacity-0 relative ${className}`}>
+      {renderText()}
+      {/* El cursor parpadeante de terminal que sigue a la animación */}
+      {hasAnimated && iteration < text.length && (
+        <span className="animate-pulse text-cyan-500 ml-1">█</span>
+      )}
     </div>
   );
 }
