@@ -63,13 +63,22 @@ export default function HiddenTerminal() {
           response = 'Comandos disponibles: whoami, clear, download_cv, hack, scan, exit';
           break;
         case 'whoami':
-          response = 'Alejandro Romero Delgado. Ingeniero Informático. buscando el sentido en el caos de los sistemas y sus frecuencias.';
+          response = 'Alejandro Romero Delgado. buscando el sentido en el caos de los sistemas y sus frecuencias.';
           break;
         case 'clear':
           setHistory([]);
           return;
         case 'download_cv':
-          response = '[INFO] Iniciando descarga segura de credenciales (CV)...';
+          response = '[INFO] Extrayendo credenciales... Iniciando descarga segura del CV.';
+          
+          setTimeout(() => {
+            const link = document.createElement('a');
+            link.href = 'certs/cv_ard.pdf'; 
+            link.download = 'CV_Alejandro_Romero_Delgado.pdf';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+          }, 800);
           break;
         case 'hack':
           response = '[ERROR] Acceso denegado. Permisos insuficientes. Este intento ha sido registrado.';

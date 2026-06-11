@@ -36,11 +36,12 @@ export default function Home() {
       {/* =========================================
           CABECERA FIJA (Nombre y Rol)
           ========================================= */}
-      <header className="absolute top-8 left-8 md:left-12 z-20 pointer-events-none">
-        <h1 className="text-4xl md:text-6xl font-bold text-white tracking-widest uppercase animate-pulse">
+      <header className="absolute top-20 md:top-12 left-6 md:left-12 z-20 pointer-events-none w-full pr-6">
+        {/* text-3xl en móvil, text-6xl en escritorio */}
+        <h1 className="text-3xl md:text-6xl font-bold text-white tracking-widest uppercase animate-pulse leading-tight">
           Alejandro Romero Delgado
         </h1>
-        <p className="text-cyan-400 mt-2 text-xl">
+        <p className="text-cyan-400 mt-2 text-sm md:text-xl font-mono">
           &gt; Ingeniería Informática · Ciberseguridad · DevSecOps
         </p>
       </header>
@@ -48,27 +49,27 @@ export default function Home() {
       {/* =========================================
           GRID PRINCIPAL: Sobre Mí (Izquierda) | Globo (Derecha)
           ========================================= */}
-      <section id="hero" className="relative h-screen w-full flex items-center pt-32 px-8 md:px-12 lg:px-24 z-10">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 w-full max-w-7xl mx-auto items-center">
+      <section id="hero" className="relative min-h-screen w-full flex items-center pt-56 pb-20 md:pt-32 lg:pt-0 px-6 md:px-12 lg:px-24 z-10">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 w-full max-w-7xl mx-auto items-center mt-10 md:mt-0">
           
           {/* COLUMNA IZQUIERDA: Texto puro y duro */}
-          <div id="about" className="text-green-400 font-mono text-lg md:text-xl">
+          <div id="about" className="text-green-400 font-mono text-base md:text-lg lg:text-xl">
              <DecryptText 
                text="~/sobre-mi.txt" 
-               className="text-2xl md:text-3xl text-green-500 mb-6 font-bold block" 
+               className="text-xl md:text-3xl text-green-500 mb-4 md:mb-6 font-bold block" 
              />
              <DecryptText 
                text="Ingeniero Informático especializado en Ciberseguridad, Infraestructuras y Sistemas Inteligentes." 
                className="leading-relaxed block mb-4 font-semibold text-gray-100" 
              />
              <DecryptText 
-               text="Me encanta todo lo relacionado con la tecnología y las máquinas. Desarrollo mis propias herramientas y experimentos, desde captura de señales en hardware fisico (SDR, Robótica) hasta su procesamiento y fortificación en arquitecturas distribuidas. Acostumbrado a auditar sistemas complejos, detectar vulnerabilidades y diseñar soluciones para mis entornos." 
-               className="leading-relaxed block text-gray-400 text-base md:text-lg" 
+               text="Me encanta todo lo relacionado con la tecnología y las máquinas. Desarrollo mis propias herramientas y experimentos, desde captura de señales en hardware físico (SDR, Robótica) hasta su procesamiento y fortificación en arquitecturas distribuidas. Acostumbrado a auditar sistemas complejos, detectar vulnerabilidades y diseñar soluciones para mis entornos." 
+               className="leading-relaxed block text-gray-400" 
              />
           </div>
 
           {/* COLUMNA DERECHA: Renderizado 3D */}
-          <div className="relative w-full h-[50vh] lg:h-[70vh]">
+          <div className="relative w-full h-[40vh] md:h-[50vh] lg:h-[70vh]">
             <HeroScene />
           </div>
 
